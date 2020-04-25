@@ -1,4 +1,5 @@
 const express = require('express');
+const winston = require('winston');
 
 const movie = require('./controller/movie.controller')
 const review = require('./controller/review.contoller')
@@ -12,10 +13,8 @@ const cookieParse = require('cookie-parser')
 // This is the default address for MongoDB.
 // Make sure MongoDB is running!
 
-// process.env.MONGODB_URI ||
 
-
-const mongoEndpoint = 'mongodb://127.0.0.1/movie_app';
+const mongoEndpoint = process.env.MONGODB_URI ||'mongodb://127.0.0.1/movie_app';
 // useNewUrlParser is not required, but the old parser is deprecated
 mongoose.connect(mongoEndpoint, { useNewUrlParser: true });
 // Get the connection string
@@ -47,5 +46,6 @@ app.use('/api/user', user);
 
 
 app.listen(3001, function() {
+    winston.log('info', '-------server start----------');
     console.log('Starting server');
 });
